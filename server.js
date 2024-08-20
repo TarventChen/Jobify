@@ -6,6 +6,9 @@ import mongoose from 'mongoose';
 import 'express-async-errors';
 //routers
 import router from './routes/jobRouter.js';
+import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
+
+
 
 const app = express();
 app.use(express.json());
@@ -22,6 +25,8 @@ app.use((err, req, res, next) => {
   console.log(err);
   res.status(500).json({ msg: 'something went wrong' });
 });
+
+app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 5100;
 

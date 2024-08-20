@@ -1,6 +1,8 @@
 import Job from '../models/JobModel.js';
 import { nanoid } from 'nanoid';
 import {StatusCode} from 'http-status-code';
+import { NotFoundError } from '../customErrors.js';
+
 let jobs = [
   { id: nanoid(), company: 'apple', position: 'front-end developer' },
   { id: nanoid(), company: 'google', position: 'back-end developer' },
@@ -17,13 +19,9 @@ export const createJob = async (req, res) => {
   res.status(StatusCode.CREATED).json({ job });
 };
 
+
 export const getJob = async (req, res) => {
-  const { id } = req.params;
-  const job = await Job.findById(id);
-  if (!job) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
-  }
-  res.status(StatusCode.OK).json({ job });
+  if (!job) throw new NotFoundError(`no job with id : ${id}`);
 };
 
 export const updateJob = async (req, res) => {
