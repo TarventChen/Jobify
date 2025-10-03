@@ -7,15 +7,26 @@ import 'express-async-errors';
 //routers
 import router from './routes/jobRouter.js';
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
-
+import {validateTest} from './middleware/validationMiddleware.js';
 
 
 const app = express();
-app.use(express.json());
+
 //middleware
 app.use('/api/v1/jobs', router);
+if (process.env.NODE_ENV !== 'development') {
+  app.use(morgan('dev'));
+}
 
-app.use(morgan('dev'));
+app.use(express.json());
+app.get('/', (req, res) => {
+  res.send('Jobify API');
+});
+
+app.post('/api/v1/test', validateTest, (req, res) => {
+  const {name} = req.body;
+  res.json({msg: `Hello, ${name}`});
+});
 
 app.use('*', (req, res) =>{
   res.status(404).json({msg: 'not found'});
