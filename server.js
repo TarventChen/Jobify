@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import 'express-async-errors';
 //routers
 import router from './routes/jobRouter.js';
-import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
+import errorHandlerMiddleware from './middleware/errorHandleMiddleware.js';
 import {validateTest} from './middleware/validationMiddleware.js';
 
 
